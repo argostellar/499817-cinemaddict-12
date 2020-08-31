@@ -17,7 +17,7 @@ const render = (container, template, place) => {
 
 const renderCards = (count, container) => {
   for (let i = 0; i < count; i++) {
-    render(container, createFilmCard, `beforeend`);
+    render(container, createFilmCard(), `beforeend`);
   }
 };
 
