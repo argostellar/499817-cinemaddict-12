@@ -144,19 +144,17 @@ const extraFilmsList = films.querySelectorAll(`.films-list--extra`);
 let topRatedFilmsList = ``;
 let mostCommentedFilmsList = ``;
 
-const checkElement = (element) => {
+const assignValue = (element) => {
   const listHeader = element.querySelector(`.films-list__title`);
   if (listHeader.innerHTML === `Top rated`) {
     topRatedFilmsList = element;
-    return;
   } else if (listHeader.innerHTML === `Most commented`) {
     mostCommentedFilmsList = element;
-    return;
   }
 };
 
-let foo = Array.from(extraFilmsList);
-foo.forEach((element) => checkElement(element));
+let extraSections = Array.from(extraFilmsList);
+extraSections.forEach((element) => assignValue(element));
 
 
 const topRatedFilmsListContainer = topRatedFilmsList.querySelector(`.films-list__container`);
