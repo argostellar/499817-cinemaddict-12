@@ -129,10 +129,7 @@ export const generateFilm = () => {
   };
 };
 
-export const generateFilms = () => {
-  const MIN_COUNT = 15;
-  const MAX_COUNT = 20;
-
+export const generateFilms = (MIN_COUNT = 15, MAX_COUNT = 20) => {
   const count = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
   const films = [];
