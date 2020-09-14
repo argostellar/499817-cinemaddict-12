@@ -132,11 +132,7 @@ export const generateFilm = () => {
 export const generateFilms = (MIN_COUNT = 15, MAX_COUNT = 20) => {
   const count = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
-  const films = [];
-
-  for (let i = 0; i < count; i++) {
-    films[i] = generateFilm();
-  }
+  const films = new Array(count).fill().map(generateFilm);
 
   return films;
 };
