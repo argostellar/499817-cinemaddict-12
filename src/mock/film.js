@@ -1,4 +1,4 @@
-import {getRandomInteger, getArrayRandomElement} from "../utils.js";
+import {getRandomInteger, getRandomArrayElement} from "../utils.js";
 import {POSTERS} from "../const.js";
 
 const generateName = () => {
@@ -12,13 +12,13 @@ const generateName = () => {
   'Terminator',
   ];
 
-  return getArrayRandomElement(names);
+  return getRandomArrayElement(names);
 };
 
 const generatePoster = () => {
   const path = '/public/images/posters';
 
-  const finalPath = path + '/' + getArrayRandomElement(POSTERS);
+  const finalPath = path + '/' + getRandomArrayElement(POSTERS);
 
   return finalPath;
 };
@@ -46,7 +46,7 @@ const generateDescription = () => {
   let description = '';
 
   for (let i = 0; i < sentencesCount.length; i++) {
-    description = description + getArrayRandomElement(sentences);
+    description = description + getRandomArrayElement(sentences);
   }
 
   return description;
@@ -94,7 +94,7 @@ const generateGenre = () => {
   'western',
   ];
 
-  return getArrayRandomElement(genres);
+  return getRandomArrayElement(genres);
 };
 
 const generateComments = () => {
@@ -127,4 +127,19 @@ export const generateFilm = () => {
     duration,
     genre,
   };
+};
+
+export const generateFilms = () => {
+  const MIN_COUNT = 15;
+  const MAX_COUNT = 20;
+
+  const count = getRandomInteger(MIN_COUNT, MAX_COUNT);
+
+  const films = [];
+
+  for (let i = 0; i < count; i++) {
+    films[i] = generateFilm();
+  }
+
+  return films;
 };

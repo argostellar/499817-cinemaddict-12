@@ -8,6 +8,8 @@ import {createShowMoreButton} from "./view/show-more-button.js";
 import {createUserProfile} from "./view/user-profile.js";
 import {createFooterFilmCounter} from "./view/footer-film-counter.js";
 
+import {generateFilms} from "./mock/film.js";
+
 const FilmCount = {
   MAIN: 5,
   TOP_RATED: 2,
