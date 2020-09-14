@@ -3,24 +3,22 @@ import {POSTERS} from "../const.js";
 
 const generateName = () => {
   const names = [
-  'Lorem Ipsum',
-  'Lorem Ipsum 2: Electric Boogaloo',
-  'Equilibrium',
-  'Die Hard',
-  'GoldenEye',
-  'Alien',
-  'Terminator',
+    `Lorem Ipsum`,
+    `Lorem Ipsum 2: Electric Boogaloo`,
+    `Equilibrium`,
+    `Die Hard`,
+    `GoldenEye`,
+    `Alien`,
+    `Terminator`,
   ];
 
   return getRandomArrayElement(names);
 };
 
 const generatePoster = () => {
-  const path = '/public/images/posters';
+  const poster = getRandomArrayElement(POSTERS);
 
-  const finalPath = path + '/' + getRandomArrayElement(POSTERS);
-
-  return finalPath;
+  return poster;
 };
 
 const generateDescription = () => {
@@ -30,24 +28,22 @@ const generateDescription = () => {
   const sentencesCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
   const sentences = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-  'Cras aliquet varius magna, non porta ligula feugiat eget. ',
-  'Fusce tristique felis at fermentum pharetra. ',
-  'Aliquam id orci ut lectus varius viverra. ',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. ',
-  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. ',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. ',
-  'Sed sed nisi sed augue convallis suscipit in sed felis. ',
-  'Aliquam erat volutpat. ',
-  'Nunc fermentum tortor ac porta dapibus. ',
-  'In rutrum ac purus sit amet tempus. ',
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. `,
+    `Cras aliquet varius magna, non porta ligula feugiat eget. `,
+    `Fusce tristique felis at fermentum pharetra. `,
+    `Aliquam id orci ut lectus varius viverra. `,
+    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. `,
+    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. `,
+    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. `,
+    `Sed sed nisi sed augue convallis suscipit in sed felis. `,
+    `Aliquam erat volutpat. `,
+    `Nunc fermentum tortor ac porta dapibus. `,
+    `In rutrum ac purus sit amet tempus. `,
   ];
 
-  let description = '';
-
-  for (let i = 0; i < sentencesCount.length; i++) {
-    description = description + getRandomArrayElement(sentences);
-  }
+  let description = new Array(sentencesCount).fill().map( (value) => {
+    return getRandomArrayElement(sentences);
+  }).join();
 
   return description;
 };
@@ -62,8 +58,8 @@ const generateYear = () => {
 };
 
 const generateRating = () => {
-  const MIN_RATING = 0;
-  const MAX_RATING = 100;
+  const MIN_RATING = 0.0;
+  const MAX_RATING = 10.0;
 
   const randomRating = getRandomInteger(MIN_RATING, MAX_RATING);
 
@@ -81,17 +77,17 @@ const generateDuration = () => {
 
 const generateGenre = () => {
   const genres = [
-  'action',
-  'adventure',
-  'comedy',
-  'crime',
-  'drama',
-  'fantasy',
-  'horror',
-  'mystery',
-  'romance',
-  'thriller',
-  'western',
+    `Action`,
+    `Adventure`,
+    `Comedy`,
+    `Crime`,
+    `Drama`,
+    `Fantasy`,
+    `Horror`,
+    `Mystery`,
+    `Romance`,
+    `Thriller`,
+    `Western`,
   ];
 
   return getRandomArrayElement(genres);
@@ -110,7 +106,7 @@ const generateComments = () => {
 export const generateFilm = () => {
   const name = generateName();
   const poster = generatePoster();
-  const description = generateDuration();
+  const description = generateDescription();
   const comments = generateComments();
   const year = generateYear();
   const rating = generateRating();
