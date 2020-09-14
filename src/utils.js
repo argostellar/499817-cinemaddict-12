@@ -11,4 +11,4 @@ export const getRandomArrayElement = (array) => {
   const randomIndex = getRandomInteger(0, array.length - 1);
 
   return array[randomIndex];
-}
+};

@@ -1,7 +1,7 @@
-export const createFooterFilmCounter = () => {
+export const createFooterFilmCounter = (count) => {
   return (
     `<section class="footer__statistics">
-    <p>130 291 movies inside</p>
+    <p>${count} movies inside</p>
   </section>`
   );
 };

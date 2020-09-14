@@ -1,18 +1,8 @@
 import {getRandomInteger, getRandomArrayElement} from "../utils.js";
-import {POSTERS} from "../const.js";
+import {POSTERS, FILM_NAMES, NAMES, GENRES, COUNTRIES, SENTENCES} from "../const.js";
 
 const generateName = () => {
-  const names = [
-    `Lorem Ipsum`,
-    `Lorem Ipsum 2: Electric Boogaloo`,
-    `Equilibrium`,
-    `Die Hard`,
-    `GoldenEye`,
-    `Alien`,
-    `Terminator`,
-  ];
-
-  return getRandomArrayElement(names);
+  return getRandomArrayElement(FILM_NAMES);
 };
 
 const generatePoster = () => {
@@ -27,23 +17,9 @@ const generateDescription = () => {
 
   const sentencesCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
-  const sentences = [
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. `,
-    `Cras aliquet varius magna, non porta ligula feugiat eget. `,
-    `Fusce tristique felis at fermentum pharetra. `,
-    `Aliquam id orci ut lectus varius viverra. `,
-    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. `,
-    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. `,
-    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. `,
-    `Sed sed nisi sed augue convallis suscipit in sed felis. `,
-    `Aliquam erat volutpat. `,
-    `Nunc fermentum tortor ac porta dapibus. `,
-    `In rutrum ac purus sit amet tempus. `,
-  ];
-
-  let description = new Array(sentencesCount).fill().map( (value) => {
-    return getRandomArrayElement(sentences);
-  }).join();
+  let description = new Array(sentencesCount).fill().map(() => {
+    return getRandomArrayElement(SENTENCES);
+  }).join(` `);
 
   return description;
 };
@@ -75,24 +51,6 @@ const generateDuration = () => {
   return randomDuration;
 };
 
-const generateGenre = () => {
-  const genres = [
-    `Action`,
-    `Adventure`,
-    `Comedy`,
-    `Crime`,
-    `Drama`,
-    `Fantasy`,
-    `Horror`,
-    `Mystery`,
-    `Romance`,
-    `Thriller`,
-    `Western`,
-  ];
-
-  return getRandomArrayElement(genres);
-};
-
 const generateComments = () => {
   const MIN_COUNT = 0;
   const MAX_COUNT = 5;
@@ -102,6 +60,60 @@ const generateComments = () => {
   return randomComments;
 };
 
+const generateActors = () => {
+  const MIN_COUNT = 1;
+  const MAX_COUNT = 3;
+
+  const actorsCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
+
+  let actors = new Array(actorsCount).fill().map(() => {
+    return getRandomArrayElement(NAMES);
+  }).join(` `);
+
+  return actors;
+};
+
+const generateWriters = () => {
+  const MIN_COUNT = 1;
+  const MAX_COUNT = 3;
+
+  const writersCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
+
+  let writers = new Array(writersCount).fill().map(() => {
+    return getRandomArrayElement(NAMES);
+  }).join(` `);
+
+  return writers;
+};
+
+const generateGenres = () => {
+  const MIN_COUNT = 1;
+  const MAX_COUNT = 3;
+
+  const genresCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
+
+  let genres = new Array(genresCount).fill().map(() => {
+    return getRandomArrayElement(GENRES);
+  });
+
+  return genres;
+};
+
+const generateDirector = () => {
+  const director = getRandomArrayElement(NAMES);
+
+  return director;
+};
+
+const generateReleaseDate = (year) => {
+  const releaseDate = new Date(year, getRandomInteger(1, 12), getRandomInteger(1, 31));
+  return releaseDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`, year: `numeric`});
+};
+
+const generateCountry = () => {
+  const country = getRandomArrayElement(COUNTRIES);
+  return country;
+};
 
 export const generateFilm = () => {
   const name = generateName();
@@ -109,9 +121,19 @@ export const generateFilm = () => {
   const description = generateDescription();
   const comments = generateComments();
   const year = generateYear();
+  const releaseDate = generateReleaseDate(year);
   const rating = generateRating();
   const duration = generateDuration();
-  const genre = generateGenre();
+  const genres = generateGenres();
+
+  const country = generateCountry();
+  const director = generateDirector();
+  const actors = generateActors();
+  const writers = generateWriters();
+
+  const isInWatchList = Boolean(getRandomInteger(0, 1));
+  const isWatched = Boolean(getRandomInteger(0, 1));
+  const isFavorite = Boolean(getRandomInteger(0, 1));
 
   return {
     name,
@@ -119,9 +141,17 @@ export const generateFilm = () => {
     description,
     comments,
     year,
+    releaseDate,
     rating,
     duration,
-    genre,
+    genres,
+    country,
+    director,
+    actors,
+    writers,
+    isInWatchList,
+    isWatched,
+    isFavorite,
   };
 };
 
