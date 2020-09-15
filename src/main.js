@@ -111,6 +111,6 @@ const mostCommentedFilmsListContainer = mostCommentedFilmsList.querySelector(`.f
 renderCards(topRatedFilms.length, topRatedFilmsListContainer, topRatedFilms);
 renderCards(mostCommentedFilms.length, mostCommentedFilmsListContainer, mostCommentedFilms);
 
-render(siteFooter, createFooterFilmCounter(filmCards.length), `beforeend`);
+render(siteFooter, createFooterFilmCounter(mainFilms.length), `beforeend`);
 
 

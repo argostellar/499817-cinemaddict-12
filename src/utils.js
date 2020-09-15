@@ -13,23 +13,34 @@ export const getRandomArrayElement = (array) => {
   return array[randomIndex];
 };
 
+const checkArrayUniqueness = (array) => {
+  for (let j = 0; j < array.length; j++) {
+    let currentItem = array[j];
+    if (array.length > 1) {
+      for (let i = j + 1; i < array.length; i++) {
+        if (currentItem === array[i]) {
+          const currentItemIndex = array.indexOf(currentItem);
+          array.splice(currentItemIndex, 1);
+        }
+      }
+    }
+  }
+};
+
 export const getUniqueArray = (itemsCount, itemConsts) => {
   const items = new Array(itemsCount).fill().map(() => {
     return getRandomArrayElement(itemConsts);
   });
-  let isRepeating = null;
-  for (let i = 0; i < items.length; i++) {
-    if (items.length <= 1) {
-      return isRepeating = false;
-    }
-    isRepeating = items.includes(items[i], i++);
-    if (isRepeating) {
-      //items.splice(i++, 1).fill(getRandomArrayElement(itemConsts), i++, i++);
-      console.log(`${items[i]} is repeating`);
+
+  const itemsLength = items.length;
+
+  for (let i = 0; i < itemsLength; i++) {
+    checkArrayUniqueness(items);
+    if (itemsLength !== items.length) {
+      const newItem = getRandomArrayElement(itemConsts);
+      items.push(newItem);
     }
   }
-  console.log(`${itemsCount}`);
-  console.log(items);
   return items;
 };
 

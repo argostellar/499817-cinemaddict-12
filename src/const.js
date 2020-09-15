@@ -73,3 +73,36 @@ export const SENTENCES = [
   `In rutrum ac purus sit amet tempus. `,
 ];
 
+export const COMMENTS = [
+  `La Classic`,
+  `My cat will do better than this`,
+  `Awful movie!`,
+  `Is this some kind of torture?`,
+  `Great movie!`,
+  `12/10`,
+  `Interesting setting and a good cast`,
+  `Booooooooooring`,
+  `Good movie to sleep`,
+  `Very very old. Meh`,
+  `Almost two hours? Seriously?`,
+  `Beautiful`,
+  `This says a lot about our society...`,
+];
+
+export const COMMENTATORS = [
+  `John Doe`,
+  `Tim Macoveev`,
+  `Don Gusto`,
+  `Tyler Durden`,
+  `Mr Green`,
+  `Emmett Brown`,
+  `Keks The Boss`,
+  `Hedy Lamarr`,
+];
+
+export const EMOJIS = [
+  `smile`,
+  `sleeping`,
+  `puke`,
+  `angry`,
+];
