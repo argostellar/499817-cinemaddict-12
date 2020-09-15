@@ -9,7 +9,6 @@ import {createUserProfile} from "./view/user-profile.js";
 import {createFooterFilmCounter} from "./view/footer-film-counter.js";
 
 import {generateFilms} from "./mock/film.js";
-import {OVERALL_FILM_COUNT} from "./const.js";
 import {createFullFilmCard} from "./view/film-card-full.js";
 
 const FilmCount = {
@@ -83,11 +82,6 @@ filmCards[0].addEventListener(`click`, (evt) => {
   evt.preventDefault();
   const fullSizeCard = createFullFilmCard(mainFilms[0]);
   render(siteFooter, fullSizeCard, `afterend`);
-  // const closeButton = fullSizeCard.querySelector(`.film-details__close-btn`);
-  // closeButton.addEventListener(`click`, (event) => {
-  // event.preventDefault();
-  // fullSizeCard.remove();
-  // });
 });
 
 render(films, createTopRatedFilmsList(), `beforeend`);
@@ -117,6 +111,6 @@ const mostCommentedFilmsListContainer = mostCommentedFilmsList.querySelector(`.f
 renderCards(topRatedFilms.length, topRatedFilmsListContainer, topRatedFilms);
 renderCards(mostCommentedFilms.length, mostCommentedFilmsListContainer, mostCommentedFilms);
 
-render(siteFooter, createFooterFilmCounter(OVERALL_FILM_COUNT), `beforeend`);
+render(siteFooter, createFooterFilmCounter(filmCards.length), `beforeend`);
 
 

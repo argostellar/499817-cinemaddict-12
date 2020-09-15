@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement} from "../utils.js";
+import {getRandomInteger, getRandomArrayElement, getUniqueArray, randomBooleanValue} from "../utils.js";
 import {POSTERS, FILM_NAMES, NAMES, GENRES, COUNTRIES, SENTENCES} from "../const.js";
 
 const generateName = () => {
@@ -34,8 +34,8 @@ const generateYear = () => {
 };
 
 const generateRating = () => {
-  const MIN_RATING = 0.0;
-  const MAX_RATING = 10.0;
+  const MIN_RATING = 0;
+  const MAX_RATING = 10;
 
   const randomRating = getRandomInteger(MIN_RATING, MAX_RATING);
 
@@ -66,9 +66,7 @@ const generateActors = () => {
 
   const actorsCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
-  let actors = new Array(actorsCount).fill().map(() => {
-    return getRandomArrayElement(NAMES);
-  }).join(` `);
+  const actors = getUniqueArray(actorsCount, NAMES);
 
   return actors;
 };
@@ -79,9 +77,7 @@ const generateWriters = () => {
 
   const writersCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
-  let writers = new Array(writersCount).fill().map(() => {
-    return getRandomArrayElement(NAMES);
-  }).join(` `);
+  const writers = getUniqueArray(writersCount, NAMES);
 
   return writers;
 };
@@ -92,9 +88,7 @@ const generateGenres = () => {
 
   const genresCount = getRandomInteger(MIN_COUNT, MAX_COUNT);
 
-  let genres = new Array(genresCount).fill().map(() => {
-    return getRandomArrayElement(GENRES);
-  });
+  const genres = getUniqueArray(genresCount, GENRES);
 
   return genres;
 };
@@ -131,9 +125,9 @@ export const generateFilm = () => {
   const actors = generateActors();
   const writers = generateWriters();
 
-  const isInWatchList = Boolean(getRandomInteger(0, 1));
-  const isWatched = Boolean(getRandomInteger(0, 1));
-  const isFavorite = Boolean(getRandomInteger(0, 1));
+  const isInWatchList = randomBooleanValue();
+  const isWatched = randomBooleanValue();
+  const isFavorite = randomBooleanValue();
 
   return {
     name,

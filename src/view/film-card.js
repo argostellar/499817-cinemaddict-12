@@ -16,7 +16,7 @@ export const createFilmCard = (film) => {
   const filmDuration = `${Math.floor(duration / HOUR)}h ${duration % HOUR}m`;
 
   const filmGenres = genres.slice();
-  const genre = filmGenres.splice(0, 1);
+  const genre = filmGenres.shift();
 
   const isActiveTemplate = (isActive) => {
     return isActive ? `film-card__controls-item--active` : ``;
