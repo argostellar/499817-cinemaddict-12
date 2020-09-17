@@ -5,8 +5,6 @@ const createMainNavigationTemplate = (films) => {
   let watchedCount = 0;
   let favoritesCount = 0;
 
-  console.log(films);
-
   for (const film of films) {
     if (film.isInWatchList) {
       watchlistCount++;
