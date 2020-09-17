@@ -1,15 +1,20 @@
-import {createFilmCard} from "./view/film-card.js";
-import {createFilmsList} from "./view/films-list.js";
-import {createMainNavigation} from "./view/main-navigation.js";
-import {createMainSorting} from "./view/main-sorting.js";
-import {createMostCommentedFilmsList} from "./view/most-commented-films-list.js";
-import {createTopRatedFilmsList} from "./view/top-rated-films-list.js";
-import {createShowMoreButton} from "./view/show-more-button.js";
-import {createUserProfile} from "./view/user-profile.js";
-import {createFooterFilmCounter} from "./view/footer-film-counter.js";
+import FilmsView from "./view/films.js";
+import FilmsListView from "./view/films-list.js";
+import FilmsListContainerView from "./view/films-list-container.js";
+import FilmCardView from "./view/film-card.js";
+import FilmCardFullView from "./view/film-card-full.js";
+import MainNavigationView from "./view/main-navigation.js";
+import MainSortingView from "./view/main-sorting.js";
+import MostCommentedFilmsListView from "./view/most-commented-films-list.js";
+import TopRatedFilmsListView from "./view/top-rated-films-list.js";
+import ShowMoreButtonView from "./view/show-more-button.js";
+import UserProfileView from "./view/user-profile.js";
+import FooterFilmCounterView from "./view/footer-film-counter.js";
 
 import {generateFilms} from "./mock/film.js";
-import {createFullFilmCard} from "./view/film-card-full.js";
+
+import {render, RenderPosition} from "./utils.js";
+
 
 const FilmCount = {
   MAIN: 5,
@@ -18,54 +23,56 @@ const FilmCount = {
   FILMS_COUNT_PER_STEP: 5,
 };
 
-const mainFilms = generateFilms();
-const topRatedFilms = generateFilms(FilmCount.TOP_RATED, FilmCount.TOP_RATED);
-const mostCommentedFilms = generateFilms(FilmCount.MOST_COMMENTED, FilmCount.MOST_COMMENTED);
-
-const siteHeader = document.querySelector(`.header`);
-const siteMain = document.querySelector(`.main`);
-const siteFooter = document.querySelector(`.footer`);
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const renderCards = (count, container, films) => {
   for (let i = 0; i < count; i++) {
-    render(container, createFilmCard(films[i]), `beforeend`);
+    render(container, new FilmCardView(films[i]).getElement(), RenderPosition.BEFOREEND);
   }
 };
 
-render(siteHeader, createUserProfile(), `beforeend`);
-render(siteMain, createMainNavigation(mainFilms), `beforeend`);
-render(siteMain, createMainSorting(), `beforeend`);
-render(siteMain, createFilmsList(), `beforeend`);
+const mainFilms = generateFilms();
+console.log(mainFilms);
+const topRatedFilms = generateFilms(FilmCount.TOP_RATED, FilmCount.TOP_RATED);
+const mostCommentedFilms = generateFilms(FilmCount.MOST_COMMENTED, FilmCount.MOST_COMMENTED);
 
-const films = siteMain.querySelector(`.films`);
-const mainList = films.querySelector(`.films-list`);
-const mainListContainer = mainList.querySelector(`.films-list__container`);
+const siteHeaderElement = document.querySelector(`.header`);
+const siteMainElement = document.querySelector(`.main`);
+const siteFooterElement = document.querySelector(`.footer`);
+
+render(siteHeaderElement, new UserProfileView().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainNavigationView(mainFilms).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainSortingView().getElement(), RenderPosition.BEFOREEND);
+
+
+render(siteMainElement, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+const films = new FilmsView();
+
+render(films, new FilmsListView().getElement(), RenderPosition.BEFOREEND);
+const mainList = new FilmsListView();
+
+render(mainList, new FilmsListContainerView().getElement(), RenderPosition.BEFOREEND);
+const mainListContainer = new FilmsListContainerView();
 
 const renderMainCards = () => {
   renderCards(FilmCount.FILMS_COUNT_PER_STEP, mainListContainer, mainFilms);
 
   if (mainFilms.length > FilmCount.FILMS_COUNT_PER_STEP) {
-    render(mainList, createShowMoreButton(), `beforeend`);
+    render(mainList, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
 
     let renderedFilmCount = FilmCount.FILMS_COUNT_PER_STEP;
 
-    const showMoreButton = mainList.querySelector(`.films-list__show-more`);
+    const showMoreButtonComponent = new ShowMoreButtonView();
 
-    showMoreButton.addEventListener(`click`, (evt) => {
+    showMoreButtonComponent.addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
       mainFilms
         .slice(renderedFilmCount, renderedFilmCount + FilmCount.FILMS_COUNT_PER_STEP)
-        .forEach((film) => render(mainListContainer, createFilmCard(film), `beforeend`));
+        .forEach((film) => render(mainListContainer, new FilmCardView(film).getElement(), RenderPosition.BEFOREEND));
 
       renderedFilmCount += FilmCount.FILMS_COUNT_PER_STEP;
 
       if (renderedFilmCount >= mainFilms.length) {
-        showMoreButton.remove();
+        showMoreButtonComponent.remove();
       }
     });
   }
@@ -80,12 +87,12 @@ const filmCards = Array.from(filmCardsCollection);
 
 filmCards[0].addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  const fullSizeCard = createFullFilmCard(mainFilms[0]);
-  render(siteFooter, fullSizeCard, `afterend`);
+  const fullSizeCard = new FilmCardFullView(mainFilms[0]).getElement();
+  render(siteFooterElement, fullSizeCard, RenderPosition.AFTEREND);
 });
 
-render(films, createTopRatedFilmsList(), `beforeend`);
-render(films, createMostCommentedFilmsList(), `beforeend`);
+render(films, new TopRatedFilmsListView().getElement(), RenderPosition.BEFOREEND);
+render(films, new MostCommentedFilmsListView().getElement(), RenderPosition.BEFOREEND);
 
 const extraFilmsList = films.querySelectorAll(`.films-list--extra`);
 
@@ -111,6 +118,6 @@ const mostCommentedFilmsListContainer = mostCommentedFilmsList.querySelector(`.f
 renderCards(topRatedFilms.length, topRatedFilmsListContainer, topRatedFilms);
 renderCards(mostCommentedFilms.length, mostCommentedFilmsListContainer, mostCommentedFilms);
 
-render(siteFooter, createFooterFilmCounter(mainFilms.length), `beforeend`);
+render(siteFooterElement, new FooterFilmCounterView(mainFilms.length).getElement(), RenderPosition.BEFOREEND);
 
 

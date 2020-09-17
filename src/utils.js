@@ -1,4 +1,5 @@
 export const RenderPosition = {
+  AFTEREND: `afterend`,
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };
@@ -11,6 +12,7 @@ export const createElement = (template) => {
 };
 
 export const render = (container, element, place) => {
+  console.log(container);
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -19,6 +21,10 @@ export const render = (container, element, place) => {
       container.append(element);
       break;
   }
+};
+
+export const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
 };
 
 export const getRandomInteger = (a = 0, b = 1) => {
@@ -69,25 +75,3 @@ export const randomBooleanValue = () => {
   const value = Boolean(getRandomInteger(0, 1));
   return value;
 };
-
-export default class Placeholder {
-  constructor() {
-    this._element = null;
-  }
-
-  getTemplate() {
-    return createBoardTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-}
