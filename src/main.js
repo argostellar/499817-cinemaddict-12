@@ -86,6 +86,8 @@ const filmCards = Array.from(filmCardsCollection);
 const onClickOpen = (evt) => {
   evt.preventDefault();
 
+  findCloseButton();
+
   siteFooterElement.appendChild(fullSizeCard.getElement());
 
   closeButton.addEventListener(`click`, onClickClose);
@@ -103,7 +105,14 @@ const onClickClose = (evt) => {
   };
 
 const fullSizeCard = new FilmCardFullView(mainFilms[0]);
-const closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
+let closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
+
+const findCloseButton = () => {
+  // функция (скорее всего временная) для того,
+  // чтобы при повторных открытиях работала кнопка закрытия
+  // не терясь при удалении обработчиков событий
+  closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
+};
 
 filmCards[0].addEventListener(`click`, onClickOpen);
 
