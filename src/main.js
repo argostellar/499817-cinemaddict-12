@@ -86,33 +86,21 @@ const filmCards = Array.from(filmCardsCollection);
 const onClickOpen = (evt) => {
   evt.preventDefault();
 
-  findCloseButton();
-
   siteFooterElement.appendChild(fullSizeCard.getElement());
 
   closeButton.addEventListener(`click`, onClickClose);
-  fullSizeCard.getElement().removeEventListener(`click`, onClickOpen);
 };
 
 const onClickClose = (evt) => {
   evt.preventDefault();
 
-  fullSizeCard.getElement().remove();
-  fullSizeCard.removeElement();
+  siteFooterElement.removeChild(fullSizeCard.getElement());
 
   closeButton.removeEventListener(`click`, onClickClose);
-  fullSizeCard.getElement().addEventListener(`click`, onClickOpen);
 };
 
 const fullSizeCard = new FilmCardFullView(mainFilms[0]);
-let closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
-
-const findCloseButton = () => {
-  // функция (скорее всего временная) для того,
-  // чтобы при повторных открытиях работала кнопка закрытия
-  // не терясь при удалении обработчиков событий
-  closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
-};
+const closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
 
 filmCards[0].addEventListener(`click`, onClickOpen);
 
