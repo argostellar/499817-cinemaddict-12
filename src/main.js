@@ -86,10 +86,10 @@ const filmCards = Array.from(filmCardsCollection);
 const onClickOpen = (evt) => {
   evt.preventDefault();
 
-  render(siteFooterElement, fullSizeCard.getElement(), RenderPosition.BEFOREEND);
-  // siteFooterElement.appendChild(fullSizeCard.getElement());
+  siteFooterElement.appendChild(fullSizeCard.getElement());
+
   closeButton.addEventListener(`click`, onClickClose);
-  // fullSizeCard.removeEventListener(`click`, onClickOpen);
+  fullSizeCard.getElement().removeEventListener(`click`, onClickOpen);
 };
 
 const onClickClose = (evt) => {
@@ -99,6 +99,7 @@ const onClickClose = (evt) => {
     fullSizeCard.removeElement();
 
     closeButton.removeEventListener(`click`, onClickClose);
+    fullSizeCard.getElement().addEventListener(`click`, onClickOpen);
   };
 
 const fullSizeCard = new FilmCardFullView(mainFilms[0]);
