@@ -95,6 +95,7 @@ const onClickClose = (evt) => {
   evt.preventDefault();
 
   siteFooterElement.removeChild(fullSizeCard.getElement());
+  fullSizeCard.removeElement();
 
   closeButton.removeEventListener(`click`, onClickClose);
 };
