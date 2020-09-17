@@ -1,4 +1,6 @@
-export const createFullFilmCard = (film) => {
+import {createElement} from "../utils.js";
+
+const createFullFilmCardTemplate = (film) => {
   const
     {name,
       poster,
@@ -170,3 +172,27 @@ export const createFullFilmCard = (film) => {
   </form>
 </section>`;
 };
+
+export default class FilmFull {
+  constructor(film) {
+    this._film = film;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFullFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
