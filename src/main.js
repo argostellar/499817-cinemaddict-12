@@ -83,12 +83,28 @@ const filmCardsCollection = mainListContainer.getElement().querySelectorAll(`.fi
 
 const filmCards = Array.from(filmCardsCollection);
 
-
-filmCards[0].addEventListener(`click`, (evt) => {
+const onClickOpen = (evt) => {
   evt.preventDefault();
-  const fullSizeCard = new FilmCardFullView(mainFilms[0]);
+
   render(siteFooterElement, fullSizeCard.getElement(), RenderPosition.BEFOREEND);
-});
+  // siteFooterElement.appendChild(fullSizeCard.getElement());
+  closeButton.addEventListener(`click`, onClickClose);
+  // fullSizeCard.removeEventListener(`click`, onClickOpen);
+};
+
+const onClickClose = (evt) => {
+    evt.preventDefault();
+
+    fullSizeCard.getElement().remove();
+    fullSizeCard.removeElement();
+
+    closeButton.removeEventListener(`click`, onClickClose);
+  };
+
+const fullSizeCard = new FilmCardFullView(mainFilms[0]);
+const closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
+
+filmCards[0].addEventListener(`click`, onClickOpen);
 
 render(films.getElement(), new TopRatedFilmsListView().getElement(), RenderPosition.BEFOREEND);
 render(films.getElement(), new MostCommentedFilmsListView().getElement(), RenderPosition.BEFOREEND);
