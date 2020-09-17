@@ -95,14 +95,14 @@ const onClickOpen = (evt) => {
 };
 
 const onClickClose = (evt) => {
-    evt.preventDefault();
+  evt.preventDefault();
 
-    fullSizeCard.getElement().remove();
-    fullSizeCard.removeElement();
+  fullSizeCard.getElement().remove();
+  fullSizeCard.removeElement();
 
-    closeButton.removeEventListener(`click`, onClickClose);
-    fullSizeCard.getElement().addEventListener(`click`, onClickOpen);
-  };
+  closeButton.removeEventListener(`click`, onClickClose);
+  fullSizeCard.getElement().addEventListener(`click`, onClickOpen);
+};
 
 const fullSizeCard = new FilmCardFullView(mainFilms[0]);
 let closeButton = fullSizeCard.getElement().querySelector(`.film-details__close-btn`);
