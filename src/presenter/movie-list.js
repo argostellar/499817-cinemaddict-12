@@ -64,7 +64,6 @@ export default class MovieList {
     };
 
     filmComponent.setOpenClickHandler(() => {
-      console.log(this._filmsListContainerComponent);
       this._filmsListContainerComponent.appendChild(filmFullComponent.getElement());
 
       closeButtonComponent.addEventListener(`click`, onClickClose);
