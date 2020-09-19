@@ -16,6 +16,9 @@ import {generateFilms} from "./mock/film.js";
 
 import {render, RenderPosition} from "./utils.js";
 
+// current branch: module5-task1
+console.log(`Initial commit`);
+
 
 const FilmCount = {
   MAIN: 5,
