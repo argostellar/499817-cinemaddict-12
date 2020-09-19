@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createMainSortingTemplate = () => {
   return (
@@ -11,7 +10,7 @@ const createMainSortingTemplate = () => {
   );
 };
 
-export default class MainSorting extends Abstract {
+export default class MainSorting extends AbstractView {
   getTemplate() {
     return createMainSortingTemplate();
   }

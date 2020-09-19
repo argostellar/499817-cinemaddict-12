@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createMainNavigationTemplate = (films) => {
   let watchlistCount = 0;
@@ -31,7 +30,7 @@ const createMainNavigationTemplate = (films) => {
   );
 };
 
-export default class MainNavigation {
+export default class MainNavigation extends AbstractView {
   constructor(films) {
     super();
     this._films = films;

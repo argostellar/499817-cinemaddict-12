@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createTopRatedFilmsListTemplate = () => {
   return (
@@ -12,7 +11,7 @@ const createTopRatedFilmsListTemplate = () => {
   );
 };
 
-export default class MainNavigation extends Abstract {
+export default class MainNavigation extends AbstractView {
   getTemplate() {
     return createTopRatedFilmsListTemplate();
   }

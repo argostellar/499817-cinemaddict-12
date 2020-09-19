@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createFooterFilmCounterTemplate = (count) => {
   return (
@@ -9,7 +8,7 @@ const createFooterFilmCounterTemplate = (count) => {
   );
 };
 
-export default class FooterCounter extends Abstract {
+export default class FooterCounter extends AbstractView {
   constructor(count) {
     super();
     this._count = count;

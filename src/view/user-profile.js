@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createUserProfileTemplate = () => {
   return (
@@ -11,7 +10,7 @@ const createUserProfileTemplate = () => {
 };
 
 
-export default class Placeholder extends Abstract {
+export default class Placeholder extends AbstractView {
   getTemplate() {
     return createUserProfileTemplate();
   }

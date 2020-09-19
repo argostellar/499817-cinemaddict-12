@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createMostCommentedFilmsListTemplate = () => {
   return (
@@ -12,7 +11,7 @@ const createMostCommentedFilmsListTemplate = () => {
   );
 };
 
-export default class MostCommentedFilmsList extends Abstract {
+export default class MostCommentedFilmsList extends AbstractView {
   getTemplate() {
     return createMostCommentedFilmsListTemplate();
   }

@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createFilmCardTemplate = (film) => {
   const
@@ -49,13 +48,24 @@ const createFilmCardTemplate = (film) => {
   );
 };
 
-export default class Film extends Abstract {
+export default class Film extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
+    this._openClickHandler = this._openClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
+  }
+
+  _openClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.openClick();
+  }
+
+  setOpenClickHandler(callback) {
+    this._callback.openClick = callback;
+    this.getElement().addEventListener(`click`, this._openClickHandler);
   }
 }

@@ -1,5 +1,4 @@
 import AbstractView from "./abstract.js";
-import {createElement} from "../utils.js";
 
 const createFullFilmCardTemplate = (film) => {
   const
@@ -174,13 +173,24 @@ const createFullFilmCardTemplate = (film) => {
 </section>`;
 };
 
-export default class FilmFull extends Abstract {
+export default class FilmFull extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
+    this._filmCloseHandler = this._filmCloseHandler.bind(this);
   }
 
   getTemplate() {
     return createFullFilmCardTemplate(this._film);
+  }
+
+  _filmCloseHandler(evt) {
+    evt.preventDefault();
+    this._callback.filmClose();
+  }
+
+  setFilmCloseHandler(callback) {
+    this._callback.filmClose = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._filmCloseHandler);
   }
 }
