@@ -1,3 +1,4 @@
+import AbstractView from "./abstract.js";
 import {createElement} from "../utils.js";
 
 const createFullFilmCardTemplate = (film) => {
@@ -173,26 +174,13 @@ const createFullFilmCardTemplate = (film) => {
 </section>`;
 };
 
-export default class FilmFull {
+export default class FilmFull extends Abstract {
   constructor(film) {
+    super();
     this._film = film;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFullFilmCardTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

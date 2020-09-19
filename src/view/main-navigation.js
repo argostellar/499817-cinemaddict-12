@@ -1,3 +1,4 @@
+import AbstractView from "./abstract.js";
 import {createElement} from "../utils.js";
 
 const createMainNavigationTemplate = (films) => {
@@ -32,24 +33,11 @@ const createMainNavigationTemplate = (films) => {
 
 export default class MainNavigation {
   constructor(films) {
+    super();
     this._films = films;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createMainNavigationTemplate(this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
