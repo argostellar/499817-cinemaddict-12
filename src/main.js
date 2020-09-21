@@ -1,5 +1,4 @@
 import MainNavigationView from "./view/main-navigation.js";
-import MainSortingView from "./view/main-sorting.js";
 // import MostCommentedFilmsListView from "./view/most-commented-films-list.js";
 // import TopRatedFilmsListView from "./view/top-rated-films-list.js";
 import UserProfileView from "./view/user-profile.js";
@@ -30,7 +29,6 @@ const siteFooterElement = document.querySelector(`.footer`);
 
 render(siteHeaderElement, new UserProfileView().getElement(), RenderPosition.BEFOREEND);
 render(siteMainElement, new MainNavigationView(mainFilms).getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new MainSortingView().getElement(), RenderPosition.BEFOREEND);
 
 
 const movieListPresenter = new MovieListPresenter(siteMainElement);

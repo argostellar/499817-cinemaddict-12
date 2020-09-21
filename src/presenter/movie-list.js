@@ -38,35 +38,34 @@ export default class MovieList {
   }
 
   _renderSort() {
-    render(this._movieListContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
+    render(this._filmsListComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderFilm(film) {
     const filmComponent = new FilmCardView(film);
     const filmFullComponent = new FilmCardFullView(film);
 
-    const closeButtonComponent = filmFullComponent.getElement()
-    .querySelector(`.film-details__close-btn`);
-
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
         evt.preventDefault();
-        this._filmsListContainerComponent.removeChild(filmFullComponent.getElement());
+        this._filmsListContainerComponent.getElement().removeChild(filmFullComponent.getElement());
+        filmFullComponent.removeElement();
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
 
     const onClickClose = () => {
-      this._filmsListContainerComponent.removeChild(filmFullComponent.getElement());
+      this._filmsListContainerComponent.getElement().removeChild(filmFullComponent.getElement());
       filmFullComponent.removeElement();
-
-      closeButtonComponent.removeEventListener(`click`, onClickClose);
     };
 
     filmComponent.setOpenClickHandler(() => {
-      this._filmsListContainerComponent.appendChild(filmFullComponent.getElement());
+      this._filmsListContainerComponent.getElement().appendChild(filmFullComponent.getElement());
 
-      closeButtonComponent.addEventListener(`click`, onClickClose);
+      filmFullComponent.setCloseClickHandeler(() => {
+        onClickClose();
+      });
+
       document.addEventListener(`keydown`, onEscKeyDown);
     });
 
@@ -112,9 +111,7 @@ export default class MovieList {
       return;
     }
 
-    this._renderSort();
-
     this._renderFilmList();
-
+    this._renderSort();
   }
 }
