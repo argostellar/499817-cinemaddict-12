@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createFooterFilmCounterTemplate = (count) => {
   return (
@@ -8,26 +8,13 @@ const createFooterFilmCounterTemplate = (count) => {
   );
 };
 
-export default class FooterCounter {
+export default class FooterCounter extends AbstractView {
   constructor(count) {
+    super();
     this._count = count;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFooterFilmCounterTemplate(this._count);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

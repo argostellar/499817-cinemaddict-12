@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement, getUniqueArray, randomBooleanValue} from "../utils.js";
+import {getRandomInteger, getRandomArrayElement, getUniqueArray, randomBooleanValue} from "../utils/common.js";
 import {POSTERS,
   FILM_NAMES,
   NAMES,
