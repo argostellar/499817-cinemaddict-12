@@ -9,6 +9,8 @@ import MainSortingView from "../view/main-sorting.js";
 // import TopRatedFilmsListView from "../view/top-rated-films-list.js";
 import ShowMoreButtonView from "../view/show-more-button.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
+import {SortType} from "../const.js";
+import {sortFilmDate, sortFilmRating} from "../utils/film.js";
 
 const FILMS_COUNT_PER_STEP = 5;
 
@@ -16,6 +18,7 @@ export default class MovieList {
   constructor(movieListContainer) {
     this._movieListContainer = movieListContainer;
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
+    this._currentSortType = SortType.DEFAULT;
 
     this._filmsComponent = new FilmsView();
     this._filmsListComponent = new FilmsListView();
@@ -25,10 +28,12 @@ export default class MovieList {
     this._showMoreButtonComponent = new ShowMoreButtonView();
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(boardFilms) {
     this._boardFilms = boardFilms.slice();
+    this._sourcedBoardFilms = boardFilms.slice();
 
     render(this._movieListContainer, this._filmsComponent, RenderPosition.BEFOREEND);
     render(this._filmsComponent, this._filmsListComponent, RenderPosition.BEFOREEND);
@@ -37,8 +42,39 @@ export default class MovieList {
     this._renderBoard();
   }
 
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this._boardTasks.sort(sortFilmDate);
+        break;
+      case SortType.RATING:
+        this._boardTasks.sort(sortFilmRating);
+        break;
+      default:
+        this._boardTasks = this._sourcedBoardTasks.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortFilms(sortType);
+    this._clearFilmList();
+    this._renderFilmList();
+  }
+
+  _clearFilmList() {
+    this._filmListComponent.getElement().innerHTML = ``;
+    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
+  }
+
   _renderSort() {
     render(this._filmsListComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderFilm(film) {

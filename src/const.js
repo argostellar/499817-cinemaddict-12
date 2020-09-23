@@ -106,3 +106,9 @@ export const EMOJIS = [
   `puke`,
   `angry`,
 ];
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `releaseDate`,
+  RATING: `rating`
+};
