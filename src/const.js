@@ -109,6 +109,7 @@ export const EMOJIS = [
 
 export const SortType = {
   DEFAULT: `default`,
-  DATE: `releaseDate`,
-  RATING: `rating`
+  DATE: `date`,
+  RATING: `rating`,
+  MOST_COMMENTED: `most-commented`,
 };

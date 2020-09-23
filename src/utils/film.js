@@ -1,5 +1,3 @@
-import {SortType} from "../const.js";
-
 const getWeightForItem = (itemA, itemB) => {
   if (itemA === null && itemB === null) {
     return 0;
@@ -16,21 +14,32 @@ const getWeightForItem = (itemA, itemB) => {
   return null;
 };
 
-const sortFilmByProp = (filmA, filmB, prop) => {
-  const weight = getWeightForItem(filmA[prop], filmB[prop]);
-  console.log(`SORT!`);
+export const sortFilmDate = (filmA, filmB) => {
+  const weight = getWeightForItem(filmA.releaseDate, filmB.releaseDate);
 
   if (weight !== null) {
     return weight;
   }
 
-  return filmA[prop] - filmB[prop];
-};
-
-export const sortFilmDate = (filmA, filmB) => {
-  sortFilmByProp(filmA, filmB, SortType.DATE);
+  return filmB.releaseDate.getTime() - filmA.releaseDate.getTime();
 };
 
 export const sortFilmRating = (filmA, filmB) => {
-  sortFilmByProp(filmA, filmB, SortType.RATING);
+  const weight = getWeightForItem(filmA.rating, filmB.rating);
+
+  if (weight !== null) {
+    return weight;
+  }
+
+  return filmB.rating - filmA.rating;
+};
+
+export const sortFilmCommented = (filmA, filmB) => {
+  const weight = getWeightForItem(filmA.comments.length, filmB.comments.length);
+
+  if (weight !== null) {
+    return weight;
+  }
+
+  return filmB.comments.length - filmA.comments.length;
 };
