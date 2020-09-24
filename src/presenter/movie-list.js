@@ -21,7 +21,7 @@ const MAX_EXTRA_FILMS = 2;
 export default class MovieList {
   constructor(movieListContainer) {
     this._movieListContainer = movieListContainer;
-    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
+    this._renderedFilmCount = 0;
     this._currentSortType = SortType.DEFAULT;
 
     this._minExtraFilms = MIN_EXTRA_FILMS;
@@ -46,6 +46,8 @@ export default class MovieList {
   init(boardFilms) {
     this._boardFilms = boardFilms.slice();
     this._sourcedBoardFilms = boardFilms.slice();
+
+    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
 
     this._mainNavigation = new MainNavigationView(this._boardFilms);
 
@@ -102,18 +104,22 @@ export default class MovieList {
     const filmComponent = new FilmCardView(film);
     const filmFullComponent = new FilmCardFullView(film);
 
+    const removeFullFilmComponent = () => {
+      this._filmsComponent.getElement().removeChild(filmFullComponent.getElement());
+      filmFullComponent.removeElement();
+    };
+
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
         evt.preventDefault();
-        this._filmsListContainerComponent.getElement().removeChild(filmFullComponent.getElement());
-        filmFullComponent.removeElement();
+        removeFullFilmComponent();
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
 
     const onClickClose = () => {
-      this._filmsComponent.getElement().removeChild(filmFullComponent.getElement());
-      filmFullComponent.removeElement();
+      removeFullFilmComponent();
+      document.removeEventListener(`keydown`, onEscKeyDown);
     };
 
     filmComponent.setOpenClickHandler(() => {

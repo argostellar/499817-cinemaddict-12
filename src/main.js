@@ -7,8 +7,6 @@ import {generateFilms} from "./mock/film.js";
 
 import {render, RenderPosition} from "./utils/render.js";
 
-// current branch: module5-task2
-
 const mainFilms = generateFilms();
 
 const siteHeaderElement = document.querySelector(`.header`);
