@@ -3,6 +3,7 @@ import FilmsListView from "../view/films-list.js";
 import FilmsListContainerView from "../view/films-list-container.js";
 import NoFilmView from "../view/no-films.js";
 import FilmPresenter from "../presenter/film.js";
+import {updateItem} from "../utils/common.js";
 import MainSortingView from "../view/main-sorting.js";
 import MostCommentedFilmsListView from "../view/most-commented-films-list.js";
 import TopRatedFilmsListView from "../view/top-rated-films-list.js";
@@ -41,6 +42,8 @@ export default class MovieList {
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+
+    this._handleFilmChange = this._handleFilmChange.bind(this);
   }
 
   init(boardFilms) {
@@ -56,6 +59,12 @@ export default class MovieList {
     render(this._filmsListComponent, this._filmsListContainerComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
+  }
+
+  _handleFilmChange(updatedFilm) {
+    this._boardFilms = updateItem(this._boardFilms, updatedFilm);
+    this._sourcedBoardFilms = updateItem(this._sourcedBoardFilms, updatedFilm);
+    this._filmPresenter[updatedFilm.id].init(updatedFilm);
   }
 
   _sortFilms(sortType) {
