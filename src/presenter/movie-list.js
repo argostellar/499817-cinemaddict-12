@@ -112,8 +112,8 @@ export default class MovieList {
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
-  _renderFilm(film, container = this._filmsListContainerComponent) {
-    const filmPresenter = new FilmPresenter(container);
+  _renderFilm(film, container = this._filmsListContainerComponent, updateHandler = this._handleFilmChange) {
+    const filmPresenter = new FilmPresenter(container, updateHandler);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
   }
