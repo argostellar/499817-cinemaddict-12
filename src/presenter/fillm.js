@@ -7,7 +7,7 @@ export default class Film {
     this._filmListContainer = filmListContainer;
 
     this._filmComponent = null;
-    this._filmEditComponent = null;
+    this._filmFullComponent = null;
 
     this._handleEditClick = this._handleOpenClick.bind(this);
     this._handleFormSubmit = this._handleCloseClick.bind(this);
@@ -17,13 +17,37 @@ export default class Film {
   init(film) {
     this._film = film;
 
+    const prevFilmComponent = this._filmComponent;
+    const prevFilmFullComponent = this._filmFullComponent;
+
     this._filmComponent = new FilmCardView(film);
     this._filmFullComponent = new FilmCardFullView(film);
 
     this._filmComponent.setOpenClickHandler(this._handleOpenClick);
     this._filmFullComponent.setCloseClickHandler(this._handleCloseClick);
 
-    render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+    if (prevFilmComponent === null || prevFilmFullComponent === null) {
+      render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    // нужны ли следующие две проверки?
+
+    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+
+    if (this._taskListContainer.getElement().contains(prevFilmFullComponent.getElement())) {
+      replace(this._filmFullComponent, prevFilmFullComponent);
+    }
+
+    remove(prevFilmComponent);
+    remove(prevFilmFullComponent);
+  }
+
+  destroy() {
+    remove(this._taskComponent);
+    remove(this._taskEditComponent);
   }
 
   _createFullFilmComponent() {

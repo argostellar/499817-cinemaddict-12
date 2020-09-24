@@ -22,6 +22,7 @@ export default class MovieList {
     this._movieListContainer = movieListContainer;
     this._renderedFilmCount = 0;
     this._currentSortType = SortType.DEFAULT;
+    this._filmPresenter = {};
 
     this._minExtraFilms = MIN_EXTRA_FILMS;
     this._maxExtraFilms = MAX_EXTRA_FILMS;
@@ -86,7 +87,10 @@ export default class MovieList {
   }
 
   _clearFilmList() {
-    this._filmsListContainerComponent.getElement().innerHTML = ``;
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._taskPresenter = {};
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
   }
 
@@ -99,44 +103,10 @@ export default class MovieList {
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
-  _renderFilm(film, extraSection) {
-    const filmComponent = new FilmCardView(film);
-    const filmFullComponent = new FilmCardFullView(film);
-
-    const removeFullFilmComponent = () => {
-      this._filmsComponent.getElement().removeChild(filmFullComponent.getElement());
-      filmFullComponent.removeElement();
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        removeFullFilmComponent();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    const onClickClose = () => {
-      removeFullFilmComponent();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    };
-
-    filmComponent.setOpenClickHandler(() => {
-      this._filmsComponent.getElement().appendChild(filmFullComponent.getElement());
-
-      filmFullComponent.setCloseClickHandeler(() => {
-        onClickClose();
-      });
-
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    if (!extraSection) {
-      render(this._filmsListContainerComponent, filmComponent, RenderPosition.BEFOREEND);
-      return;
-    }
-
-    render(extraSection, filmComponent, RenderPosition.BEFOREEND);
+  _renderFilm(film, container = this._filmsListContainerComponent) {
+    const filmPresenter = new FilmPresenter(container);
+    filmPresenter.init(film);
+    this._filmPresenter[film.id] = filmPresenter;
   }
 
   _renderFilms(from, to, typeOfExtra, extraSection) {
