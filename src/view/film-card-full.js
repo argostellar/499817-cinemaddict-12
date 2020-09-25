@@ -52,6 +52,25 @@ const createFullFilmCardTemplate = (film) => {
     return filmComments;
   };
 
+  // const emoji = (currentEmoji === undefined) ? 'smile' : currentEmoji;
+  // ${comments.length === 0 && currentEmoji ? `<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">` : ``}
+  // ${comments.length !== 0 && currentEmoji === undefined ? `` : `<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">`}
+
+  const emojiTemplate = (someEmoji) => {
+    let template = `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">`;
+    if (someEmoji === undefined) {
+      template = `<img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">`;
+    }
+    if (comments.length !== 0 && someEmoji === undefined) {
+      template = ``;
+    }
+    // template = (comments.length !== 0 && someEmoji === undefined) ? `` : `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">`;
+
+    // template = (someEmoji === undefined) ? `<img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">` : ``;
+    // template = (comments.length === 0 && someEmoji) ? `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">` : ``;
+    return template;
+  };
+
   const date = releaseDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`, year: `numeric`});
 
   return `<section class="film-details">
@@ -139,7 +158,7 @@ const createFullFilmCardTemplate = (film) => {
 
         <div class="film-details__new-comment">
           <div for="add-emoji" class="film-details__add-emoji-label">
-          ${comments.length === 0 ? `<img src="images/emoji/${currentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ``}
+          ${emojiTemplate(currentEmoji)}
           </div>
 
           <label class="film-details__comment-label">
@@ -180,12 +199,15 @@ export default class FilmFull extends SmartView {
     this._film = film;
     this._closeClickHandler = this._closeClickHandler.bind(this);
 
-    console.log(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
 
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._watchListClickHandler = this._watchListClickHandler.bind(this);
 
-    this._setInnerHandlers();
+
+    this.restoreHandlers();
 
   }
 
@@ -204,14 +226,17 @@ export default class FilmFull extends SmartView {
   }
 
   _setInnerHandlers() {
+    // хэндлер эмоджи
     this.getElement()
     .querySelectorAll(`.film-details__emoji-item`)
     .forEach((item) => {
       item.addEventListener(`click`, this._emojiClickHandler);
     });
+    // хэндлер ввода комментариев
     this.getElement()
     .querySelector(`.film-details__comment-input`)
     .addEventListener(`input`, this._commentInputHandler);
+    // хэндлер кнопки закрытия
     this.getElement()
     .querySelector(`.film-details__close-btn`)
     .addEventListener(`click`, this._closeClickHandler);
@@ -226,15 +251,33 @@ export default class FilmFull extends SmartView {
 
   _emojiClickHandler(evt) {
     evt.preventDefault();
-    this.updateData({
-      currentEmoji: evt.target.value
-    });
+    console.log(evt.target);
+    if (evt.target.value === this._film.currentEmoji) {
+      return;
+    }
+    this._callback.emojiClick(evt);
   }
 
   _closeClickHandler(evt) {
     evt.preventDefault();
     this._callback.closeClick(this._film);
   }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick(this._film);
+  }
+
+  _watchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchedClick(this._film);
+  }
+
+  _watchListClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchListClick(this._film);
+  }
+
 
   setCloseClickHandler(callback) {
     this._callback.closeClick = callback;
@@ -257,5 +300,26 @@ export default class FilmFull extends SmartView {
     this.getElement()
     .querySelector(`.film-details__comment-input`)
     .addEventListener(`input`, this._commentInputHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement()
+    .querySelector(`.film-details__control-label--favorite`)
+    .addEventListener(`click`, this._favoriteClickHandler);
+  }
+
+  setWatchedClickHandler(callback) {
+    this._callback.watchedClick = callback;
+    this.getElement()
+    .querySelector(`.film-details__control-label--watched`)
+    .addEventListener(`click`, this._watchedClickHandler);
+  }
+
+  setWatchListClickHandler(callback) {
+    this._callback.watchListClick = callback;
+    this.getElement()
+    .querySelector(`.film-details__control-label--watchlist`)
+    .addEventListener(`click`, this._watchListClickHandler);
   }
 }

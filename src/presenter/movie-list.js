@@ -164,14 +164,6 @@ export default class MovieList {
     this._currentSortType = sortType;
   }
 
-  _clearFilmList() {
-    Object
-      .values(this._filmPresenter)
-      .forEach((presenter) => presenter.destroy());
-    this._taskPresenter = {};
-    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
-  }
-
   _handleSortTypeChange(sortType) {
     if (this._currentSortType === sortType) {
       return;
@@ -180,6 +172,14 @@ export default class MovieList {
     this._sortFilms(sortType);
     this._clearFilmList();
     this._renderFilmList();
+  }
+
+  _clearFilmList() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._filmPresenter = {};
+    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
   }
 
   _handleShowMoreButtonClick() {
@@ -201,5 +201,7 @@ export default class MovieList {
     this._boardFilms = updateItem(this._boardFilms, updatedFilm);
     this._sourcedBoardFilms = updateItem(this._sourcedBoardFilms, updatedFilm);
     this._filmPresenter[updatedFilm.id].init(updatedFilm);
+    console.log(`updatedFilm`);
+    console.log(updatedFilm);
   }
 }

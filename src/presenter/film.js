@@ -49,6 +49,10 @@ export default class Film {
     this._filmComponent.setWatchListClickHandler(this._handleWatchListClick);
     this._filmComponent.setWatchedClickHandler(this._handleWatchedClick);
 
+    this._filmFullComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmFullComponent.setWatchListClickHandler(this._handleWatchListClick);
+    this._filmFullComponent.setWatchedClickHandler(this._handleWatchedClick);
+
     if (prevFilmComponent === null || prevFilmFullComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
       return;
@@ -57,20 +61,25 @@ export default class Film {
     // нужна ли следующая проверка? Ведь мы же не меняем карточки, они всегда
     // отрендерены
 
-    if (this._mode === Mode.DEFAULT) {
+    if (this._mode === Mode.DEFAULT && prevFilmComponent !== null) {
       replace(this._filmComponent, prevFilmComponent);
-    }
-
-    // эта проверка для замены filmFull компонента скорее всего нужна
-
-    if (this._mode === Mode.FULLSIZE) {
       replace(this._filmFullComponent, prevFilmFullComponent);
     }
 
-    console.log(`IT WAS REMOVAL OF prevFilmComponent ${prevFilmComponent}`);
-    remove(prevFilmComponent);
-    console.log(`IT WAS REMOVAL OF prevFilmFullComponent ${prevFilmFullComponent}`);
-    remove(prevFilmFullComponent);
+    // эта проверка для замены filmFull компонента скорее всего нужна
+    // upd: обе проверки нужны для перерендера карточек
+
+    if (this._mode === Mode.FULLSIZE && prevFilmFullComponent !== null) {
+      replace(this._filmComponent, prevFilmComponent);
+      replace(this._filmFullComponent, prevFilmFullComponent);
+    }
+
+    // а вот на счёт этих двух remove'oв не уверен что они вообще понадобятся
+    // так как при проверке открытия через таб или шифт таб всё равно
+    // открывалась одна карточка (знаю что это мусор)
+
+    // remove(prevFilmComponent);
+    // remove(prevFilmFullComponent);
   }
 
   destroy() {
@@ -88,6 +97,9 @@ export default class Film {
   _createFullFilmComponent() {
     include(this._filmFullComponent, this._filmListContainer);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    // добавил следующую строчку, не уверен что так правильно, но
+    // теперь карточка спокойно закрывается при перерендере
+    this._filmFullComponent.setCloseClickHandler(this._handleCloseClick);
     this._changeMode();
     this._mode = Mode.FULLSIZE;
   }
@@ -107,6 +119,7 @@ export default class Film {
   }
 
   _handleFavoriteClick() {
+    // evt.preventDefault();
     this._changeData(
         Object.assign(
             {},
@@ -142,27 +155,27 @@ export default class Film {
     );
   }
 
-  _handleEmojiClick() {
+  _handleEmojiClick(evt) {
     this._changeData(
         Object.assign(
             {},
             this._film,
             {
-              currentEmoji: this._film.currentEmoji
+              currentEmoji: evt.target.value
             }
         )
     );
   }
 
-  _handleCommentInput() {
+  _handleCommentInput(evt) {
     this._changeData(
         Object.assign(
             {},
             this._film,
             {
-              currentComment: this._film.currentComment
+              currentComment: evt.target.value
             }
-        )
+        ), true
     );
   }
 
@@ -171,8 +184,9 @@ export default class Film {
   }
 
   _handleCloseClick(film) {
-    console.log(`this._changeData(film)`);
-    console.log(this._changeData(film));
+    // эта строчка портит закрытие карточки,
+    // и по факту, обновления данных не должно
+    // происходить при закрытии на крестик
     this._changeData(film);
     this._removeFullFilmComponent();
   }
