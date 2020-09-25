@@ -44,6 +44,7 @@ export const renderTemplate = (container, template, place) => {
 
 export const remove = (component) => {
   console.log(`REMOVE!`);
+  console.log(`IT WAS REMOVAL OF ${component}`);
   if (!(component instanceof Abstract)) {
     throw new Error(`Can remove only components`);
   }

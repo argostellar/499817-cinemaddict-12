@@ -57,6 +57,20 @@ export const FILM_NAMES = [
   `GoldenEye`,
   `Alien`,
   `Terminator`,
+  `PH-1`,
+  `PH-2`,
+  `PH-3`,
+  `PH-4`,
+  `PH-5`,
+  `PH-6`,
+  `PH-7`,
+  `NotDeadYet-1`,
+  `NotDeadYet-2`,
+  `NotDeadYet-3`,
+  `NotDeadYet-4`,
+  `NotDeadYet-5`,
+  `NotDeadYet-6`,
+  `NotDeadYet-7`,
 ];
 
 export const SENTENCES = [

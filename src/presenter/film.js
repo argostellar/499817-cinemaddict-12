@@ -54,17 +54,22 @@ export default class Film {
       return;
     }
 
-    // нужны ли следующие две проверки?
+    // нужна ли следующая проверка? Ведь мы же не меняем карточки, они всегда
+    // отрендерены
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._filmComponent, prevFilmComponent);
     }
 
+    // эта проверка для замены filmFull компонента скорее всего нужна
+
     if (this._mode === Mode.FULLSIZE) {
       replace(this._filmFullComponent, prevFilmFullComponent);
     }
 
+    console.log(`IT WAS REMOVAL OF prevFilmComponent ${prevFilmComponent}`);
     remove(prevFilmComponent);
+    console.log(`IT WAS REMOVAL OF prevFilmFullComponent ${prevFilmFullComponent}`);
     remove(prevFilmFullComponent);
   }
 
@@ -96,7 +101,7 @@ export default class Film {
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
-      this._filmFullComponent.reset(this._task);
+      this._filmFullComponent.reset(this._film);
       this._removeFullFilmComponent();
     }
   }
