@@ -15,6 +15,7 @@ export const createElement = (template) => {
 };
 
 export const render = (container, child, place) => {
+  console.log(`RENDER!`);
   if (container instanceof Abstract) {
     container = container.getElement();
   }
@@ -42,6 +43,7 @@ export const renderTemplate = (container, template, place) => {
 };
 
 export const remove = (component) => {
+  console.log(`REMOVE!`);
   if (!(component instanceof Abstract)) {
     throw new Error(`Can remove only components`);
   }
@@ -51,6 +53,7 @@ export const remove = (component) => {
 };
 
 export const replace = (newChild, oldChild) => {
+  console.log(`REPLACE!`);
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.getElement();
   }
@@ -69,6 +72,7 @@ export const replace = (newChild, oldChild) => {
 };
 
 export const include = (child, parent) => {
+  console.log(`INCLUDE!`);
   if (child instanceof Abstract) {
     child = child.getElement();
   }
@@ -85,16 +89,17 @@ export const include = (child, parent) => {
 };
 
 export const exclude = (child) => {
-  if (child instanceof Abstract) {
-    child = child.getElement();
-  }
+  console.log(`EXCLUDE!`);
+  // if (child instanceof Abstract) {
+  //   child = child.getElement();
+  // }
 
-  const parent = child.parentElement;
+  const parent = child.getElement().parentElement;
 
-  if (parent === null || child === null) {
+  if (parent === null || child.getElement() === null) {
     throw new Error(`Can't exclude unexisting elements`);
   }
 
-  parent.removeChild(child);
+  parent.removeChild(child.getElement());
   child.removeElement();
 };

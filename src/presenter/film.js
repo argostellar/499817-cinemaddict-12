@@ -1,17 +1,27 @@
 import FilmCardView from "../view/film-card.js";
 import FilmCardFullView from "../view/film-card-full.js";
-import {render, RenderPosition, remove, include, exclude} from "../utils/render.js";
+import {render, RenderPosition, remove, replace, include, exclude} from "../utils/render.js";
+
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  FULLSIZE: `FULLSIZE`,
+};
 
 export default class Film {
-  constructor(filmListContainer, changeData) {
+  constructor(filmListContainer, changeData, changeMode) {
     this._filmListContainer = filmListContainer;
     this._changeData = changeData;
+    this._changeMode = changeMode;
 
     this._filmComponent = null;
     this._filmFullComponent = null;
+    this._mode = Mode.DEFAULT;
 
     this._handleOpenClick = this._handleOpenClick.bind(this);
     this._handleCloseClick = this._handleCloseClick.bind(this);
+
+    this._handleEmojiClick = this._handleEmojiClick.bind(this);
+    this._handleCommentInput = this._handleCommentInput.bind(this);
 
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
@@ -32,9 +42,12 @@ export default class Film {
     this._filmComponent.setOpenClickHandler(this._handleOpenClick);
     this._filmFullComponent.setCloseClickHandler(this._handleCloseClick);
 
-    this._taskComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    this._taskComponent.setWatchListClickHandler(this._handleWatchListClick);
-    this._taskComponent.setWatchedClickHandler(this._handleWatchedClick);
+    this._filmFullComponent.setEmojiClickHandler(this._handleEmojiClick);
+    this._filmFullComponent.setCommentInputHandler(this._handleCommentInput);
+
+    this._filmComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmComponent.setWatchListClickHandler(this._handleWatchListClick);
+    this._filmComponent.setWatchedClickHandler(this._handleWatchedClick);
 
     if (prevFilmComponent === null || prevFilmFullComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -43,11 +56,11 @@ export default class Film {
 
     // нужны ли следующие две проверки?
 
-    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._filmComponent, prevFilmComponent);
     }
 
-    if (this._taskListContainer.getElement().contains(prevFilmFullComponent.getElement())) {
+    if (this._mode === Mode.FULLSIZE) {
       replace(this._filmFullComponent, prevFilmFullComponent);
     }
 
@@ -56,25 +69,36 @@ export default class Film {
   }
 
   destroy() {
-    remove(this._taskComponent);
-    remove(this._taskEditComponent);
+    console.log(`DESTROY!`);
+    remove(this._filmComponent);
+    remove(this._filmFullComponent);
+  }
+
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._removeFullFilmComponent();
+    }
   }
 
   _createFullFilmComponent() {
-    include(this._filmFullComponent, this._filmListContainer)
+    include(this._filmFullComponent, this._filmListContainer);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.FULLSIZE;
   }
 
   _removeFullFilmComponent() {
     exclude(this._filmFullComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    this._mode = Mode.DEFAULT;
   }
 
-  _escKeyDownHandler = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        this._removeFullFilmComponent();
-      }
+  _escKeyDownHandler(evt) {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      this._filmFullComponent.reset(this._task);
+      this._removeFullFilmComponent();
+    }
   }
 
   _handleFavoriteClick() {
@@ -113,11 +137,37 @@ export default class Film {
     );
   }
 
+  _handleEmojiClick() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._film,
+            {
+              currentEmoji: this._film.currentEmoji
+            }
+        )
+    );
+  }
+
+  _handleCommentInput() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._film,
+            {
+              currentComment: this._film.currentComment
+            }
+        )
+    );
+  }
+
   _handleOpenClick() {
-      this._createFullFilmComponent();
+    this._createFullFilmComponent();
   }
 
   _handleCloseClick(film) {
+    console.log(`this._changeData(film)`);
+    console.log(this._changeData(film));
     this._changeData(film);
     this._removeFullFilmComponent();
   }

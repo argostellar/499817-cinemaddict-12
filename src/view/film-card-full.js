@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import SmartView from "./smart.js";
 
 const createFullFilmCardTemplate = (film) => {
   const
@@ -16,7 +16,8 @@ const createFullFilmCardTemplate = (film) => {
       writers,
       isInWatchList,
       isWatched,
-      isFavorite
+      isFavorite,
+      currentEmoji,
     } = film;
 
   const HOUR = 60;
@@ -138,7 +139,7 @@ const createFullFilmCardTemplate = (film) => {
 
         <div class="film-details__new-comment">
           <div for="add-emoji" class="film-details__add-emoji-label">
-          ${comments.length === 0 ? `<img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">` : ``}
+          ${comments.length === 0 ? `<img src="images/emoji/${currentEmoji}.png" width="55" height="55" alt="emoji-smile">` : ``}
           </div>
 
           <label class="film-details__comment-label">
@@ -173,15 +174,61 @@ const createFullFilmCardTemplate = (film) => {
 </section>`;
 };
 
-export default class FilmFull extends AbstractView {
+export default class FilmFull extends SmartView {
   constructor(film) {
     super();
     this._film = film;
     this._closeClickHandler = this._closeClickHandler.bind(this);
+
+    console.log(this);
+    this._commentInputHandler = this._commentInputHandler.bind(this);
+    this._emojiClickHandler = this._emojiClickHandler.bind(this);
+
+
+    this._setInnerHandlers();
+
+  }
+
+  reset(film) {
+    this.updateData(
+        film
+    );
   }
 
   getTemplate() {
     return createFullFilmCardTemplate(this._film);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+    .querySelectorAll(`.film-details__emoji-item`)
+    .forEach((item) => {
+      item.addEventListener(`click`, this._emojiClickHandler);
+    });
+    this.getElement()
+    .querySelector(`.film-details__comment-input`)
+    .addEventListener(`input`, this._commentInputHandler);
+    this.getElement()
+    .querySelector(`.film-details__close-btn`)
+    .addEventListener(`click`, this._closeClickHandler);
+  }
+
+  _commentInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      comment: evt.target.value
+    }, true);
+  }
+
+  _emojiClickHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      currentEmoji: evt.target.value
+    });
   }
 
   _closeClickHandler(evt) {
@@ -194,5 +241,21 @@ export default class FilmFull extends AbstractView {
     this.getElement()
     .querySelector(`.film-details__close-btn`)
     .addEventListener(`click`, this._closeClickHandler);
+  }
+
+  setEmojiClickHandler(callback) {
+    this._callback.emojiClick = callback;
+    this.getElement()
+    .querySelectorAll(`.film-details__emoji-item`)
+    .forEach((item) => {
+      item.addEventListener(`click`, this._emojiClickHandler);
+    });
+  }
+
+  setCommentInputHandler(callback) {
+    this._callback.commentInput = callback;
+    this.getElement()
+    .querySelector(`.film-details__comment-input`)
+    .addEventListener(`input`, this._commentInputHandler);
   }
 }
