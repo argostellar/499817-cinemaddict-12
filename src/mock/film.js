@@ -9,6 +9,8 @@ import {POSTERS,
   COMMENTS,
   EMOJIS} from "../const.js";
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateName = () => {
   return getRandomArrayElement(FILM_NAMES);
 };
@@ -140,6 +142,7 @@ const generateCountry = () => {
 
 export const generateFilm = () => {
   return {
+    id: generateId(),
     name: generateName(),
     poster: generatePoster(),
     description: generateDescription(),
