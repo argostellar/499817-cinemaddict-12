@@ -52,22 +52,21 @@ const createFullFilmCardTemplate = (film) => {
     return filmComments;
   };
 
-  // const emoji = (currentEmoji === undefined) ? 'smile' : currentEmoji;
-  // ${comments.length === 0 && currentEmoji ? `<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">` : ``}
-  // ${comments.length !== 0 && currentEmoji === undefined ? `` : `<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">`}
-
   const emojiTemplate = (someEmoji) => {
     let template = `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">`;
+
     if (someEmoji === undefined) {
       template = `<img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">`;
     }
+
     if (comments.length !== 0 && someEmoji === undefined) {
       template = ``;
     }
-    // template = (comments.length !== 0 && someEmoji === undefined) ? `` : `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">`;
 
-    // template = (someEmoji === undefined) ? `<img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">` : ``;
-    // template = (comments.length === 0 && someEmoji) ? `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">` : ``;
+    if (comments.length !== 0 && (someEmoji !== undefined)) {
+      template = `<img src="images/emoji/${someEmoji}.png" width="55" height="55" alt="emoji-${someEmoji}">`;
+    }
+
     return template;
   };
 

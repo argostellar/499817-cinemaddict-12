@@ -73,13 +73,6 @@ export default class Film {
       replace(this._filmComponent, prevFilmComponent);
       replace(this._filmFullComponent, prevFilmFullComponent);
     }
-
-    // а вот на счёт этих двух remove'oв не уверен что они вообще понадобятся
-    // так как при проверке открытия через таб или шифт таб всё равно
-    // открывалась одна карточка (знаю что это мусор)
-
-    // remove(prevFilmComponent);
-    // remove(prevFilmFullComponent);
   }
 
   destroy() {
@@ -118,7 +111,6 @@ export default class Film {
   }
 
   _handleFavoriteClick() {
-    // evt.preventDefault();
     this._changeData(
         Object.assign(
             {},
@@ -183,9 +175,6 @@ export default class Film {
   }
 
   _handleCloseClick(film) {
-    // эта строчка портит закрытие карточки,
-    // и по факту, обновления данных не должно
-    // происходить при закрытии на крестик
     this._changeData(film);
     this._removeFullFilmComponent();
   }

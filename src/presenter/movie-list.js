@@ -52,7 +52,7 @@ export default class MovieList {
     this._boardFilms = boardFilms.slice();
     this._sourcedBoardFilms = boardFilms.slice();
 
-    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
+    this._renderedFilmCount = 0;
 
     this._mainNavigation = new MainNavigationView(this._boardFilms);
 
@@ -97,6 +97,8 @@ export default class MovieList {
 
   _renderFilmList() {
     this._renderFilms(0, Math.min(this._boardFilms.length, FILMS_COUNT_PER_STEP));
+
+    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
 
     if (this._boardFilms.length > FILMS_COUNT_PER_STEP) {
       this._renderShowMoreButton();
@@ -179,7 +181,7 @@ export default class MovieList {
       .values(this._filmPresenter)
       .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
-    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
+    this._renderedFilmCount = 0;
   }
 
   _handleShowMoreButtonClick() {
