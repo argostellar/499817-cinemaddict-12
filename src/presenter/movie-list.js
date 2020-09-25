@@ -201,7 +201,5 @@ export default class MovieList {
     this._boardFilms = updateItem(this._boardFilms, updatedFilm);
     this._sourcedBoardFilms = updateItem(this._sourcedBoardFilms, updatedFilm);
     this._filmPresenter[updatedFilm.id].init(updatedFilm);
-    console.log(`updatedFilm`);
-    console.log(updatedFilm);
   }
 }

@@ -83,7 +83,6 @@ export default class Film {
   }
 
   destroy() {
-    console.log(`DESTROY!`);
     remove(this._filmComponent);
     remove(this._filmFullComponent);
   }

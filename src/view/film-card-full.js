@@ -251,7 +251,6 @@ export default class FilmFull extends SmartView {
 
   _emojiClickHandler(evt) {
     evt.preventDefault();
-    console.log(evt.target);
     if (evt.target.value === this._film.currentEmoji) {
       return;
     }
