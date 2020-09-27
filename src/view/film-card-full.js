@@ -1,4 +1,6 @@
 import SmartView from "./smart.js";
+import {formatCommentDate, formatFilmReleaseDate, formatFilmDuration} from "../utils/common.js";
+
 
 const createFullFilmCardTemplate = (film) => {
   const
@@ -20,8 +22,11 @@ const createFullFilmCardTemplate = (film) => {
       currentEmoji,
     } = film;
 
-  const HOUR = 60;
-  const filmDuration = `${Math.floor(duration / HOUR)}h ${duration % HOUR}m`;
+  const filmDuration = formatFilmDuration(duration);
+
+  const genreMarkup = `${genres.length > 1 ? `Genres` : `Genre`}`;
+
+  const ageRating = `18+`;
 
   const filmsGenresTemplate = (someFilmsGenres) => {
     let genresList = ``;
@@ -34,7 +39,7 @@ const createFullFilmCardTemplate = (film) => {
   const commentsTemplate = (someComments) => {
     let filmComments = ``;
     for (const comment of someComments) {
-      const commentDate = comment.date.toLocaleString(`en-US`, {minute: `numeric`, hour: `numeric`, day: `numeric`, month: `numeric`, year: `numeric`});
+      const commentDate = formatCommentDate(comment.date);
       filmComments += `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${comment.emoji}.png" width="55" height="55" alt="emoji-${comment.emoji}">
@@ -70,7 +75,7 @@ const createFullFilmCardTemplate = (film) => {
     return template;
   };
 
-  const date = releaseDate.toLocaleString(`en-US`, {day: `numeric`, month: `long`, year: `numeric`});
+  const date = formatFilmReleaseDate(releaseDate);
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -82,7 +87,7 @@ const createFullFilmCardTemplate = (film) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${ageRating}</p>
         </div>
 
         <div class="film-details__info">
@@ -123,7 +128,7 @@ const createFullFilmCardTemplate = (film) => {
               <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${genreMarkup}</td>
               <td class="film-details__cell">
                 ${filmsGenresTemplate(genres)}</td>
             </tr>

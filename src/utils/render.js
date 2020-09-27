@@ -85,10 +85,7 @@ export const include = (child, parent) => {
 };
 
 export const exclude = (child) => {
-  // if (child instanceof Abstract) {
-  //   child = child.getElement();
-  // }
-
+  // здесь была проверка на instanceof Abstract
   const parent = child.getElement().parentElement;
 
   if (parent === null || child.getElement() === null) {

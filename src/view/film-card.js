@@ -1,4 +1,5 @@
 import AbstractView from "./abstract.js";
+import {formatFilmDuration} from "../utils/common.js";
 
 const createFilmCardTemplate = (film) => {
   const
@@ -14,8 +15,7 @@ const createFilmCardTemplate = (film) => {
       isWatched,
       isFavorite} = film;
 
-  const HOUR = 60;
-  const filmDuration = `${Math.floor(duration / HOUR)}h ${duration % HOUR}m`;
+  const filmDuration = formatFilmDuration(duration);
 
   const filmGenres = genres.slice();
   const genre = filmGenres.shift();
