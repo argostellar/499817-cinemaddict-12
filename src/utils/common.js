@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -61,3 +63,26 @@ export const updateItem = (items, update) => {
     ...items.slice(index + 1)
   ];
 };
+
+export const formatCommentDate = (commentDate) => {
+  if (!(commentDate instanceof Date)) {
+    return ``;
+  }
+
+  return moment(commentDate).format(`YYYY/MM/DD HH:MM`);
+};
+
+export const formatFilmReleaseDate = (releaseDate) => {
+  if (!(releaseDate instanceof Date)) {
+    return ``;
+  }
+
+  return moment(releaseDate).format(`DD MMMM YYYY`);
+};
+
+export const formatFilmDuration = (filmDuration) => {
+  const HOUR = 60;
+  const MILLISECOND = 1000;
+  return moment.utc(filmDuration * HOUR * MILLISECOND).format(`H[h] mm[m]`);
+};
+
